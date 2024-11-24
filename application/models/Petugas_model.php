@@ -28,6 +28,12 @@ class Petugas_model extends CI_Model
 		return $this->db->update('petugas', $data);
 	}
 
+	public function delete($id_petugas)
+	{
+		$this->db->where('id_petugas', $id_petugas);
+		return $this->db->delete('petugas');
+	}
+
 	function make_query()
 	{
 		$this->db->select('petugas.*')

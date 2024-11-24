@@ -22,6 +22,12 @@ class File_model extends CI_Model
 		return $this->db->insert('file', $data);
 	}
 
+	public function delete($id_file)
+	{
+		$this->db->where('id_file', $id_file);
+		return $this->db->delete('file');
+	}
+
 	public function update_status($id_file, $data)
 	{
 		$this->db->where('id_file', $id_file);
@@ -72,4 +78,20 @@ class File_model extends CI_Model
 		$this->db->from("file");
 		return $this->db->count_all_results();
 	}
+
+	public function get_public_counts()
+	{
+		$this->db->from('file');
+		$this->db->where('status', '1');
+		return $this->db->count_all_results();
+	}
+
+	public function get_private_counts()
+	{
+		$this->db->from('file');
+		$this->db->where('status', '0');
+		return $this->db->count_all_results();
+	}
+
+
 }

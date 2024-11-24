@@ -85,7 +85,7 @@ class File extends CI_Controller
 				}
 				$sub_array[] = $row->keterangan;
 				$sub_array[] = '<a href="' . site_url('admin/edit/' . $row->id_file) . '" class="btn btn-info btn-xs update"><i class="fa fa-edit"></i></a>
-                     <a href="' . site_url('file/delete/' . $row->id_file) . '" onclick="return confirm(\'Apakah anda yakin?\')" class="btn btn-danger btn-xs delete"><i class="fa fa-trash"></i></a>';
+                     <a href="' . site_url('admin/deleteFile/' . $row->id_file) . '" onclick="return confirm(\'Apakah anda yakin?\')" class="btn btn-danger btn-xs delete"><i class="fa fa-trash"></i></a>';
 				$data[] = $sub_array;
 			}
 
@@ -101,7 +101,29 @@ class File extends CI_Controller
 		}
 	}
 
-	public function public($id_file)
+	/**
+	 * @param $id_file
+	 *
+	 * @return void
+	 */
+	public function delete($id_file):void
+	{
+		$data = $this->File_model->delete($id_file);
+
+		if ($data) {
+			$this->session->set_flashdata('success', 'Sukses menghapus data.');
+		}else {
+			$this->session->set_flashdata('error', 'Gagal menghapus data.');
+		}
+		redirect(base_url('admin/file'));
+	}
+
+	/**
+	 * @param $id_file
+	 *
+	 * @return void
+	 */
+	public function public($id_file):void
 	{
 		$data = [
 			'status' => '0',

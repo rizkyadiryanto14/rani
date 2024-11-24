@@ -29,11 +29,25 @@ class Petugas extends CI_Controller
 	 *
 	 * @return void
 	 */
-	public function update($id_petugas):void
+	public function update($id_petugas): void
 	{
-		$petugas = $this->Petugas_model->getPetugasById($id_petugas);
-		$this->load->view('admin/petugas/edit', array('petugas' => $petugas));
+		// Cek apakah petugas ditemukan
+		$data['cek_petugas'] = $this->Petugas_model->getPetugasByIdUser($id_petugas);
+
+		if (is_null($data['cek_petugas'])) {
+			// Jika cek_petugas null, kirimkan data kosong
+			$data['petugas'] = [];
+			$data['id_petugas'] = null;
+		} else {
+			// Jika cek_petugas tidak null, ambil data petugas berdasarkan id_petugas
+			$data['petugas'] = $this->Petugas_model->getPetugasById($data['cek_petugas']['id_petugas']);
+			$data['id_petugas'] = $data['cek_petugas']['id_petugas'];
+		}
+
+		// Load view dengan data
+		$this->load->view('admin/petugas/edit', $data);
 	}
+
 
 	/**
 	 * @param $id
@@ -135,7 +149,7 @@ class Petugas extends CI_Controller
 				$sub_array[] = $row->email;
 				$sub_array[] = $row->role;
 				$sub_array[] = '<a href="' . site_url('admin/edit_petugas/' . $row->id_users) . '" class="btn btn-info btn-xs update"><i class="fa fa-edit"></i></a>
-                     <a href="' . site_url('file/delete/' . $row->id_users) . '" onclick="return confirm(\'Apakah anda yakin?\')" class="btn btn-danger btn-xs delete"><i class="fa fa-trash"></i></a>';
+                     <a href="' . site_url('admin/deletePetugas/' . $row->id_users) . '" onclick="return confirm(\'Apakah anda yakin?\')" class="btn btn-danger btn-xs delete"><i class="fa fa-trash"></i></a>';
 				$data[] = $sub_array;
 			}
 
@@ -149,5 +163,17 @@ class Petugas extends CI_Controller
 		} else {
 			echo "Error: Fetch data is not an array.";
 		}
+	}
+
+	public function delete($id_petugas)
+	{
+		$delete_petugas = $this->Petugas_model->delete($id_petugas);
+
+		if ($delete_petugas) {
+			$this->session->set_flashdata('success', 'Data berhasil dihapus');
+		}else {
+			$this->session->set_flashdata('error', 'Data gagal dihapus');
+		}
+		redirect(base_url('admin/petugas'));
 	}
 }

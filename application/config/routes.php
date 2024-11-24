@@ -75,6 +75,7 @@ $route['admin/insert_file']			= 'Admin/File/insert';
 $route['admin/edit/(:num)']			= 'Admin/File/update/$1';
 $route['admin/public/(:num)']		= 'Admin/File/public/$1';
 $route['admin/private/(:num)']		= 'Admin/File/private/$1';
+$route['admin/deleteFile/(:num)']	= 'Admin/File/delete/$1';
 
 
 $route['admin/petugas']				= 'Admin/Petugas';
@@ -82,6 +83,8 @@ $route['admin/get_data_petugas']	= 'Admin/Petugas/get_data_petugas';
 $route['admin/insert_petugas']		= 'Admin/Petugas/insert';
 $route['admin/edit_petugas/(:num)'] = 'Admin/Petugas/update/$1';
 $route['admin/register_petugas']	= 'Admin/Petugas/register';
+$route['admin/deletePetugas/(:num)'] = 'Admin/Petugas/delete/$1';
+$route['admin/updatePetugas/(:num)'] = 'Admin/Petugas/update/$1';
 
 
 //petugas
